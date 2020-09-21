@@ -1,4 +1,4 @@
-﻿using Bank.Business.Application.Entities;
+﻿using Bank.Business.Domain.Entities;
 
 namespace Bank.Business.Domain.Validators
 {
@@ -24,12 +24,12 @@ namespace Bank.Business.Domain.Validators
 
         public bool IsValidBankBranch()
         {
-            return StringValidator.ValidateString(Account.BankBranch.ToString());
+            return Account.BankBranch != null && Account.BankBranch != 0;
         }
 
         public bool IsValidBankAccount()
         {
-            return StringValidator.ValidateString(Account.BankAccount.ToString());
+            return Account.BankAccount != null && Account.BankAccount != 0;
         }
     }
 }

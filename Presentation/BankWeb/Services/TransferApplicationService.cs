@@ -1,9 +1,9 @@
-﻿using Bank.Domain.Dto;
-using Bank.Domain.Entities;
-using Bank.Domain.Mappers;
-using Bank.Infrastructure.Contracts;
+﻿using Bank.Business.Application.Dto;
+using Bank.Business.Domain.Entities;
+using Bank.Business.Domain.Mappers;
+using Bank.Infrastructure.Persistence.Contracts;
 
-namespace BankWeb.Services
+namespace Bank.Presentation.BankWeb.Services
 {
     public class TransferApplicationService
     {

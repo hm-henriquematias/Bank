@@ -1,4 +1,5 @@
 using Bank.Business.Domain.Entities;
+using Bank.Business.Domain.Exceptions;
 using Bank.Business.Domain.ValueObjects;
 using Bank.Domain.DomainServices;
 using System;
@@ -43,33 +44,6 @@ namespace Bank.Test.Unit.Domain.Test.Services
             };
             TransferDomainService service = new TransferDomainService();
             Assert.Equal(expected, service.HasFreeTransfersAvailableInOriginAccount(amountTransferencesFromCurrentMonth, planOriginAccount));
-        }    
-        
-        [Fact]
-        public void ValidateTransfer_BalanceAvailable()
-        {
-            Transfer transfer = new Transfer()
-            {
-                Value = 100,
-                From = new CustomerAccount()
-                {
-                    BankBranch = 1,
-                    BankAccount = 1,
-                    Balance = 100,
-                    IsActiveAccount = true
-                },
-                To = new CustomerAccount()
-                {
-                    BankBranch = 2,
-                    BankAccount = 2,
-                    Balance = 0,
-                    IsActiveAccount = true
-                }
-            };
-
-            TransferDomainService service = new TransferDomainService();
-            Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
         }
 
         [Fact]
@@ -94,7 +68,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
 
         [Fact]
@@ -117,7 +91,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
 
         [Fact]
@@ -140,7 +114,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
 
         [Fact]
@@ -161,7 +135,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
 
         [Fact]
@@ -188,7 +162,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
 
 
@@ -216,7 +190,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
 
         [Fact]
@@ -243,7 +217,7 @@ namespace Bank.Test.Unit.Domain.Test.Services
 
             TransferDomainService service = new TransferDomainService();
             Action action = () => service.ValidateTransfer(transfer);
-            ArgumentException exception = Assert.Throws<ArgumentException>(action);
+            InvalidTransferException exception = Assert.Throws<InvalidTransferException>(action);
         }
     }
 }

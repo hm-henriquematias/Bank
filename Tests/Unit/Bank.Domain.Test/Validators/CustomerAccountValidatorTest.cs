@@ -89,7 +89,7 @@ namespace Bank.Test.Unit.Domain.Test.Validators
 
             validator.ValidateActiveAccount();
 
-            Assert.False(validator.IsValid);
+            Assert.True(validator.IsValid);
         }
     }
 }

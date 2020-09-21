@@ -2,6 +2,7 @@
 using Bank.Infrastructure.Persistence.Contracts;
 using Bank.Business.Domain.Entities;
 using Bank.Business.Domain.Exceptions;
+using Bank.Business.Domain.ValueObjects;
 
 namespace Bank.Infrastructure.Persistence.Services
 {
