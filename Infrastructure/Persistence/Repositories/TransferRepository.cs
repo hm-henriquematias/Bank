@@ -1,9 +1,11 @@
 ﻿using Bank.Business.Application.Contracts;
 using Bank.Business.Domain.Entities;
 using Bank.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bank.Infrastructure.Persistence.Repositories
 {
@@ -13,44 +15,80 @@ namespace Bank.Infrastructure.Persistence.Repositories
         {
         }
 
-        public Transfer Find(CustomerAccount from, CustomerAccount to)
+        public async Task<Transfer> Find(CustomerAccount from, CustomerAccount to)
         {
-            return BankContext.Transfers.FirstOrDefault(transfer => transfer.From == from && transfer.To == to);
+            return await BankContext.Transfers.FirstOrDefaultAsync(transfer => transfer.From == from && transfer.To == to);
         }
 
-        public IEnumerable<Transfer> FindAll(CustomerAccount customerAccount)
+        public async Task<IEnumerable<Transfer>> FindAll(CustomerAccount customerAccount)
         {
-            return BankContext.Transfers.Where(transfer => transfer.From == customerAccount || transfer.To == customerAccount);
+            List<Transfer> transfers = new List<Transfer>();
+
+            IEnumerable<Transfer> transfersList = await BankContext.Transfers.ToListAsync();
+
+            foreach (Transfer transfer in transfersList)
+            {
+                if ((transfer.From.BankBranch == customerAccount.BankBranch && transfer.From.BankAccount == customerAccount.BankAccount) ||
+                    (transfer.To.BankBranch == customerAccount.BankBranch && transfer.To.BankAccount == customerAccount.BankAccount))
+                    transfers.Add(transfer);
+            }
+
+            return transfers;
         }
 
-        public IEnumerable<Transfer> FindAllDestinationAccount(CustomerAccount to)
+        public async Task<IEnumerable<Transfer>> FindAllDestinationAccount(CustomerAccount to)
         {
-            return BankContext.Transfers.Where(transfer => transfer.To == to);
+            List<Transfer> transfers = new List<Transfer>();
+
+            IEnumerable<Transfer> transfersList = await BankContext.Transfers.ToListAsync();
+
+            foreach (Transfer transfer in transfersList)
+            {
+                if (transfer.To.BankBranch == to.BankBranch && transfer.To.BankAccount == to.BankAccount)
+                    transfers.Add(transfer);
+            }
+
+            return transfers;
         }
 
-        public IEnumerable<Transfer> FindAllOriginAccount(CustomerAccount from)
+        public async Task<IEnumerable<Transfer>> FindAllOriginAccount(CustomerAccount from)
         {
-            return BankContext.Transfers.Where(transfer => transfer.From == from);
+            List<Transfer> transfers = new List<Transfer>();
+
+            IEnumerable<Transfer> transfersList = await BankContext.Transfers.ToListAsync();
+
+            foreach (Transfer transfer in transfersList)
+            {
+                if (transfer.From.BankBranch == from.BankBranch && transfer.From.BankAccount == from.BankAccount)
+                    transfers.Add(transfer);
+            }
+
+            return transfers;
         }
 
-        public Transfer FindDestinationAccount(CustomerAccount to)
+        public async Task<Transfer> FindDestinationAccount(CustomerAccount to)
         {
-            return BankContext.Transfers.FirstOrDefault(transfer => transfer.To == to);
+            return await BankContext.Transfers.FirstOrDefaultAsync(transfer => transfer.To == to);
         }
 
-        public Transfer FindOriginAccount(CustomerAccount from)
+        public async Task<Transfer> FindOriginAccount(CustomerAccount from)
         {
-            return BankContext.Transfers.FirstOrDefault(transfer => transfer.From == from);
+            return await BankContext.Transfers.FirstOrDefaultAsync(transfer => transfer.From == from);
         }
 
-        public int CountAmountTransferInCurrentMonth(CustomerAccount account)
+        public async Task<int> CountAmountTransferInCurrentMonth(CustomerAccount account)
         {
-            return BankContext.CustomerAccounts.Count(
-                 transfer =>
-                    transfer.BankBranch == account.BankBranch &&
-                    transfer.BankAccount == account.BankAccount &&
-                    transfer.CreatedDate.Month == DateTime.Now.Month
-                );
+            List<Transfer> transfers = new List<Transfer>();
+
+            IEnumerable<Transfer> transfersList = await BankContext.Transfers.ToListAsync();
+
+            foreach (Transfer transfer in transfersList)
+            {
+                if (transfer.From.BankBranch == account.BankBranch && transfer.From.BankAccount == account.BankAccount && transfer.CreatedDate.Month == DateTime.Now.Month)
+                    transfers.Add(transfer);
+            }
+
+            return transfers.Count();
         }
     }
 }

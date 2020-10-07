@@ -1,9 +1,10 @@
 ﻿using Bank.Business.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace Bank.Business.Application.Contracts
 {
     public interface ICustomerRepository : IBaseRepository<Customer>
     {
-        Customer Find(string RegistrationNumber);
+        Task<Customer> Find(string RegistrationNumber);
     }
 }

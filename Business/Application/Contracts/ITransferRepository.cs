@@ -1,16 +1,17 @@
 ﻿using Bank.Business.Domain.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Bank.Business.Application.Contracts
 {
     public interface ITransferRepository : IBaseRepository<Transfer>
     {
-        Transfer Find(CustomerAccount from, CustomerAccount to);
-        IEnumerable<Transfer> FindAll(CustomerAccount customerAccount);
-        IEnumerable<Transfer> FindAllOriginAccount(CustomerAccount from);
-        Transfer FindOriginAccount(CustomerAccount from);
-        Transfer FindDestinationAccount(CustomerAccount to);
-        IEnumerable<Transfer> FindAllDestinationAccount(CustomerAccount to);
-        int CountAmountTransferInCurrentMonth(CustomerAccount account);
+        Task<Transfer> Find(CustomerAccount from, CustomerAccount to);
+        Task<IEnumerable<Transfer>> FindAll(CustomerAccount customerAccount);
+        Task<IEnumerable<Transfer>> FindAllOriginAccount(CustomerAccount from);
+        Task<Transfer> FindOriginAccount(CustomerAccount from);
+        Task<Transfer> FindDestinationAccount(CustomerAccount to);
+        Task<IEnumerable<Transfer>> FindAllDestinationAccount(CustomerAccount to);
+        Task<int> CountAmountTransferInCurrentMonth(CustomerAccount account);
     }
 }

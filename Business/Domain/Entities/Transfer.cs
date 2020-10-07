@@ -17,5 +17,10 @@ namespace Bank.Business.Domain.Entities
             From.Balance = From.Balance - (Tax + Value);
             To.Balance = To.Balance + Value;
         }
+
+        public bool IsOriginAccountEqualsDestinationAccount()
+        {
+            return (From.BankBranch == To.BankBranch && From.BankAccount == To.BankAccount);
+        }
     }
 }

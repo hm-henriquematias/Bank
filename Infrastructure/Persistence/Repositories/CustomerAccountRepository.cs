@@ -1,8 +1,10 @@
 ﻿using Bank.Business.Application.Contracts;
 using Bank.Business.Domain.Entities;
 using Bank.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bank.Infrastructure.Persistence.Repositories
 {
@@ -12,23 +14,29 @@ namespace Bank.Infrastructure.Persistence.Repositories
         {
         }
 
-        public CustomerAccount Find(int BankBranch, int BankAccount)
+        public async Task<CustomerAccount> Find(int BankBranch, int BankAccount)
         {
-            return BankContext.CustomerAccounts.FirstOrDefault(
+            return await BankContext.CustomerAccounts.FirstOrDefaultAsync(
                 customerAccount =>
                     customerAccount.BankBranch == BankBranch &&
                     customerAccount.BankAccount == BankAccount
             );
         }
 
-        public IEnumerable<CustomerAccount> FindAllAccounts(int BankBranch)
+        public async Task<IEnumerable<CustomerAccount>> FindAllAccounts(int BankBranch)
         {
-            return BankContext.CustomerAccounts.Where(customerAccount => customerAccount.BankBranch == BankBranch);
+            return await BankContext.CustomerAccounts.Where(customerAccount => customerAccount.BankBranch == BankBranch).ToListAsync();
         }
 
-        public IEnumerable<CustomerAccount> FindAllCustomerAccounts(int CustomerId)
+        public async Task<IEnumerable<CustomerAccount>> FindAllCustomerAccounts(int CustomerId)
         {
-            return BankContext.CustomerAccounts.Where(customerAccount => customerAccount.CustomerId == CustomerId);
+            return await BankContext.CustomerAccounts.Where(customerAccount => customerAccount.CustomerId == CustomerId).ToListAsync();
+        }
+
+        public async Task<bool> IsExistsAccount(CustomerAccount customerAccount)
+        {
+            var account = await Find(customerAccount.BankBranch, customerAccount.BankAccount);
+            return account != null;
         }
     }
 }

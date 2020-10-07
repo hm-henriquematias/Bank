@@ -5,14 +5,6 @@ namespace Bank.Test.Unit.Domain.Test.Entities
 {
     public class TransferTest
     {
-        //DbContextOptions<BankContext> options;
-        //var builder = new DbContextOptionsBuilder<BankContext>();
-        //builder.UseInMemoryDatabase("BankTest");
-        //    options = builder.Options;
-        //    BankContext bankContext = new BankContext(options);
-        //bankContext.Database.EnsureDeleted();
-        //    bankContext.Database.EnsureCreated();
-        //    return new CustomerAccountRepository(bankContext);
         [Theory]
         [InlineData(0, 900)]
         [InlineData(10, 890)]

@@ -1,36 +1,21 @@
 ﻿using Bank.Business.Domain.Entities;
-using Bank.Business.Domain.Enums;
+using FluentValidation;
 
 namespace Bank.Business.Domain.Validators
 {
-    public class TransferValidator : EntityValidator
+    public class TransferValidator : AbstractValidator<Transfer>
     {
-        public Transfer TransferEntity { get; set; }
-
-        public override void Validate()
+        public TransferValidator()
         {
-            if (!IsBalanceAvailableToTransfer())
-                AddValidateMessage("Saldo indisponivel para conta de origem");
-            ValidateAccounts(TransferenceDirectionEnum.Origem, TransferEntity.From);
-            ValidateAccounts(TransferenceDirectionEnum.Destino, TransferEntity.To);
-        }
+            RuleFor(transfer => transfer.Value).GreaterThan(0).WithMessage("Valor deve ser maior que zero");
 
-        public void ValidateAccounts(TransferenceDirectionEnum transferenceDirection, CustomerAccount customerAccount)
-        {
-            CustomerAccountValidator AccountValidator = new CustomerAccountValidator
-            {
-                Account = customerAccount
-            };
+            RuleFor(transfer => transfer.From).SetValidator(new CustomerAccountValidator());
+            RuleFor(transfer => transfer.To).SetValidator(new CustomerAccountValidator());
 
-            AccountValidator.Validate();
+            RuleFor(transfer => transfer.From.IsActiveAccount).Equal(true).WithMessage("Conta de origem inativa");
+            RuleFor(transfer => transfer.To.IsActiveAccount).Equal(true).WithMessage("Conta de destino inativa");
 
-            if (!AccountValidator.IsValid)
-                AddValidateMessage($"Erro ao validar conta: {transferenceDirection.ToString()} - {AccountValidator.GetValidateMessage()}");
-        }
-
-        public bool IsBalanceAvailableToTransfer()
-        {
-            return TransferEntity.Value <= TransferEntity.From.Balance;
+            RuleFor(transfer => transfer.From.Balance).GreaterThanOrEqualTo(transfer => transfer.Value).WithMessage("Saldo não disponivel para transferencia");
         }
     }
 }

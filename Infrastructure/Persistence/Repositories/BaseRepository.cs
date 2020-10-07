@@ -1,7 +1,9 @@
 ﻿using Bank.Business.Application.Contracts;
 using Bank.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bank.Infrastructure.Persistence.Repositories
 {
@@ -14,32 +16,32 @@ namespace Bank.Infrastructure.Persistence.Repositories
             BankContext = bankContext;
         }
 
-        public void Add(TEntity entity)
+        public async Task Add(TEntity entity)
         {
             BankContext.Set<TEntity>().Add(entity);
-            BankContext.SaveChanges();
+            await BankContext.SaveChangesAsync();
         }
 
-        public TEntity Find(int id)
+        public async Task<TEntity> Find(int id)
         {
-            return BankContext.Set<TEntity>().Find(id);
+            return await BankContext.Set<TEntity>().FindAsync(id);
         }
 
-        public IEnumerable<TEntity> FindAll()
+        public async Task<IEnumerable<TEntity>> FindAll()
         {
-            return BankContext.Set<TEntity>().ToList();
+            return await BankContext.Set<TEntity>().ToListAsync();
         }
 
-        public void Remove(TEntity entity)
+        public async Task Remove(TEntity entity)
         {
             BankContext.Set<TEntity>().Remove(entity);
-            BankContext.SaveChanges();
+            await BankContext.SaveChangesAsync();
         }
 
-        public void Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
             BankContext.Set<TEntity>().Update(entity);
-            BankContext.SaveChanges();
+            await BankContext.SaveChangesAsync();
         }
 
         public void Dispose()
