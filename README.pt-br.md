@@ -4,13 +4,20 @@
 Sistema bancário que permite criação de contas e transferência de valores entre contas
 
 ### Objetivo
-
+Criar um sistema bancário virtual, que permite a criação de contas e transferência de valores entre as contas, utilizando angular e dotnet core.
 
 ### Progresso
+##### Feito:
+*  Projeto:
+    *  Dockerização do projeto;
+*  Microserviço bancário:
+    *  Transferência de valores;
 
-
-### Badges
-
+##### Pendente:
+*  Projeto:
+    *  Criação de interface web para usuário;
+*  Microserviço bancário:
+    *  Criação de contas;
 
 ### Demonstração/Exemplos
 
@@ -18,13 +25,11 @@ Sistema bancário que permite criação de contas e transferência de valores en
 ### Pré-Requisitos
 
 
-### Como Instalar E Testar
-
-
-### Extensões Utilizadas
-
+### Tecnologias Utilizadas
+*  DDD
+*  CQRS
+*  Swagger
+*  EF Core
 
 ### Autor
-
-
-
+Henrique Matias
