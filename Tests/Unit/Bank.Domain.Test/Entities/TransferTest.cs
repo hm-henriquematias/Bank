@@ -1,20 +1,23 @@
 using Bank.Business.Domain.Entities;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace Bank.Test.Unit.Domain.Test.Entities
+namespace Bank.Domain.Test.Entities
 {
+    [TestClass]
     public class TransferTest
     {
-        [Theory]
-        [InlineData(0, 900)]
-        [InlineData(10, 890)]
-        [InlineData(24.90, 875.10)]
-        public void MakeTransfer(decimal tax, decimal expectedBalanceToOriginAccount)
+        [DataTestMethod]
+        [DataRow(0, 900, 1100)]
+        [DataRow(10, 890, 1100)]
+        [DataRow(24.90, 875.10, 1100)]
+        public void MakeTransfer_ShouldBeEqual(double tax, double expectedBalanceToOriginAccount, double expectedBalanceToDestinationAccount)
         {
+            // Arrange
             Transfer transfer = new Transfer()
             {
                 Value = 100,
-                Tax = tax,
+                Tax = Convert.ToDecimal(tax),
                 From = new CustomerAccount()
                 {
                     Balance = 1000
@@ -25,10 +28,78 @@ namespace Bank.Test.Unit.Domain.Test.Entities
                 },
             };
 
+            // Action
             transfer.MakeTransfer();
 
-            Assert.Equal(expectedBalanceToOriginAccount, transfer.From.Balance);
-            Assert.Equal(1100, transfer.To.Balance);
+            // Assert
+            Assert.AreEqual(Convert.ToDecimal(expectedBalanceToOriginAccount), transfer.From.Balance);
+            Assert.AreEqual(Convert.ToDecimal(expectedBalanceToDestinationAccount), transfer.To.Balance);
+        }
+
+        [TestMethod]
+        public void GetTotalValueOfTransferToDecreaseForOriginAccount_ShouldBeEqual()
+        {
+            // Assert
+            var transfer = new Transfer() { Value = 100, Tax = 10, };
+
+            var expected = 110;
+
+            // Action
+            var totalValue = transfer.GetTotalValueOfTransferToDecreaseForOriginAccount();
+
+            // Assert
+            Assert.AreEqual(expected, totalValue);
+        }
+
+        [TestMethod]
+        public void GetTotalValueOfTransferToDecreaseForOriginAccount_ShouldBeTrue()
+        {
+            // Assert
+            var transfer = new Transfer()
+            {
+                From = new CustomerAccount()
+                {
+                    BankBranch = 1,
+                    BankAccount = 1,
+                },
+                To = new CustomerAccount()
+                {
+                    BankBranch = 1,
+                    BankAccount = 1,
+                },
+            };
+
+            // Action
+            var isOriginAccountEqualsDestinationAccount = transfer.IsOriginAccountEqualsDestinationAccount();
+
+            // Assert
+            Assert.IsTrue(isOriginAccountEqualsDestinationAccount);
+        }
+
+
+        [TestMethod]
+        public void GetTotalValueOfTransferToDecreaseForOriginAccount_ShouldBeFalse()
+        {
+            // Assert
+            var transfer = new Transfer()
+            {
+                From = new CustomerAccount()
+                {
+                    BankBranch = 1,
+                    BankAccount = 1,
+                },
+                To = new CustomerAccount()
+                {
+                    BankBranch = 1,
+                    BankAccount = 2,
+                },
+            };
+
+            // Action
+            var isOriginAccountEqualsDestinationAccount = transfer.IsOriginAccountEqualsDestinationAccount();
+
+            // Assert
+            Assert.IsFalse(isOriginAccountEqualsDestinationAccount);
         }
     }
 }

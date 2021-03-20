@@ -4,20 +4,20 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <RootNamespace>Bank.Test.Unit.Application.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="coverlet.collector" Version="1.0.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+    <PackageReference Include="NSubstitute" Version="4.2.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Business\Application\Application.csproj" />
-    <ProjectReference Include="..\..\..\Business\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\02 - Business\Bank.Application\Bank.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\03 - Infrastructure\Bank.Bootstrap\Bank.Bootstrap.csproj" />
   </ItemGroup>
 
 </Project>
