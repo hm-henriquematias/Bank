@@ -1,14 +1,12 @@
 using Bank.Infrastructure.Bootstrap.DI;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Reflection;
-using MediatR;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace BankWeb
 {
@@ -27,10 +25,10 @@ namespace BankWeb
             services.AddControllersWithViews();
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/dist";
+            //});
             //services.AddControllers();
             services.AddMediatR(typeof(Startup));
             services.AddSwaggerGen(c =>
@@ -56,10 +54,10 @@ namespace BankWeb
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
+            //if (!env.IsDevelopment())
+            //{
+            //    app.UseSpaStaticFiles();
+            //}
 
             app.UseRouting();
 
