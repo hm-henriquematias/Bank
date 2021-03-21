@@ -23,3 +23,5 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: .NET Test
+      run: dotnet test ./Tests/Unit/Bank.Application.Test/Bank.Application.Test.csproj -c Release --no-build /p:CI=true
