@@ -13,6 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: baruchiro/github-actions@0.0.1
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -23,3 +24,6 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: dotnet-tests-report
+
+      
